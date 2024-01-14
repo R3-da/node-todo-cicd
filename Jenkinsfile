@@ -2,6 +2,7 @@ pipeline {
     agent { label "dev-server"}
     
     stages {
+        
         stage("code"){
             steps{
                 git url: "https://github.com/LondheShubham153/node-todo-cicd.git", branch: "master"
@@ -29,17 +30,10 @@ pipeline {
                 }
             }
         }
-        stage("deploy") {
-            steps {
-                echo 'Stopping and removing existing container if it exists'
-                sh "docker stop node-app-containertwo || true"
-                sh "docker rm node-app-containertwo || true"
-
+        stage("deploy"){
+            steps{
                 sh "docker-compose down && docker-compose up -d"
-                echo 'Deployment ho gayi'
-
-                // Start the container with the specified name
-                sh "docker run -d --name node-app-containertwo -p 8000:8000 node-app-todo1"
+                echo 'deployment ho gayi'
             }
         }
     }
