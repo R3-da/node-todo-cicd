@@ -30,13 +30,14 @@ pipeline {
             }
         }
         stage("deploy") {
-        steps {
+            steps {
+                echo 'Stopping and removing existing container if it exists'
+                sh "docker stop node-app-containertwo || true"
+                sh "docker rm node-app-containertwo || true"
+
                 sh "docker-compose down && docker-compose up -d"
-                echo 'deployment ho gayi'
-                
-                // Remove the existing container with the specified name
-                sh "docker rm -f node-app-containertwo || true"
-                
+                echo 'Deployment ho gayi'
+
                 // Start the container with the specified name
                 sh "docker run -d --name node-app-containertwo -p 8000:8000 node-app-todo1"
             }
