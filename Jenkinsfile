@@ -30,10 +30,16 @@ pipeline {
                 }
             }
         }
-        stage("deploy"){
-            steps{
+        stage("deploy") {
+        steps {
                 sh "docker-compose down && docker-compose up -d"
                 echo 'deployment ho gayi'
+                
+                // Remove the existing container with the specified name
+                sh "docker rm -f node-app-containertwo || true"
+                
+                // Start the container with the specified name
+                sh "docker run -d --name node-app-containertwo -p 8000:8000 node-app-todo1"
             }
         }
     }
