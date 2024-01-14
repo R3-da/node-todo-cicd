@@ -8,17 +8,20 @@ pipeline {
                 echo 'bhaiyya code clone ho gaya'
             }
         }
+
         stage("build and test"){
             steps{
                 sh "docker build -t node-app-test-new ."
                 echo 'code build bhi ho gaya'
             }
         }
+        
         stage("scan image"){
             steps{
                 echo 'image scanning ho gayi'
             }
         }
+
         stage("push"){
             steps{
                 withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
@@ -29,6 +32,7 @@ pipeline {
                 }
             }
         }
+        
         stage("deploy") {
             steps {
                 echo 'Stopping and removing existing container if it exists'
